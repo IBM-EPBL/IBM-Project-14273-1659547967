@@ -54,7 +54,7 @@ def add_user():
          dob = request.form['dob']
 
          
-         with sql.connect("/home/local/ZOHOCORP/hari-pt5511/database.db") as con:
+         with sql.connect("/home/hari/database.db") as con:
             cur = con.cursor()
             
             cur.execute("INSERT INTO users (name,email,password,dob) VALUES (?,?,?,?)",(name, email, password, dob) )
@@ -79,7 +79,7 @@ def validate_user():
             password = args.get('password')
             print(email)
          
-            con = sql.connect("/home/local/ZOHOCORP/hari-pt5511/database.db")
+            con = sql.connect("/home/hari/database.db")
             con.row_factory = sql.Row
    
             cur = con.cursor()
