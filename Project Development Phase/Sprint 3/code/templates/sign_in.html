@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign In</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="../static/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!-- Main css -->
+    <link rel="stylesheet" href="../static/css/register.css">
+    
+    <script>
+        var request;
+function sendInfo(email,password)  
+   {  
+     
+   var url="{{ url_for('validate_user') }}?email="+email+"&password="+password;  
+     
+   if(window.XMLHttpRequest){  
+   request=new XMLHttpRequest();  
+   }  
+   else if(window.ActiveXObject){  
+   request=new ActiveXObject("Microsoft.XMLHTTP");  
+   }  
+     
+   try  
+   {  
+   request.onreadystatechange=getInfo;  
+   request.open("GET",url,true);  
+   request.send();  
+   }  
+   catch(e)  
+   {  
+   alert("Unable to connect to server");  
+   }  
+   }  
+     
+   function getInfo(){  
+   if(request.readyState==4){  
+   var val=request.responseText;  
+   if( val == "User does not exists" || val=="Incorrect Password"){
+	   console.log(val);
+       document.getElementById("loading").style.display = "none"
+	   document.getElementById('alert').innerHTML=val; 
+
+   }
+   else{
+	   console.log(val);
+	   document.getElementById('body').innerHTML=val;
+   }
+   
+   
+   
+   }  
+   }  
+   
+   
+function validateForm() {
+ 
+  var email = document.forms["form"]["email"].value;
+  var password = document.forms["form"]["pass"].value;
+  console.log(email+"     "+password)
+if( validemail(email) && validpassword(password)){
+     document.getElementById("loading").style.display = "block"
+	 sendInfo(email,password);
+     
+}
+else{
+    return false
+}
+ 
+}
+
+
+function validemail(email){
+  document.getElementById("email_err").innerHTML="";
+  if (email != "") {
+    var emailfor = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if(email.match(emailfor))
+      {
+      return true;
+      }
+      else
+      {
+       
+      document.getElementById("email_err").innerHTML="Invalid Email"
+      return false;
+      }
+  }
+  else{
+    
+    document.getElementById("email_err").innerHTML="Email Should not be empty"
+      return false;
+  }
+}
+function validpassword(password){
+  document.getElementById("pass_err").innerHTML="";
+  if (password != "") {
+   return true;
+  }
+  else{
+    document.getElementById("pass_err").innerHTML="Passowrd Should not be empty"
+      return false;
+  }
+
+}
+    </script>
+   
+</head>
+<body id="body" style="background-color: #fef8f5;">
+
+    <div class="main" style="margin-top: -70px;">
+
+        <div id="alert" class="alert alert-light text-center" role="alert" style="color: red;"> </div>
+
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="../static/img/signin.jpg" alt="sing up image"></figure>
+                        <a href="/sign_up" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <div class="d-flex ">
+                            <div style="display: none;" class="spinner-grow mt-3" id = "loading" role="status">
+                            </div>
+                            <h2 class="form-title">Sign in</h2>
+                            
+                        </div>
+                        
+                        <form  name="form" >
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input onkeyup="validemail(this.value)" type="text" name="email" id="email" placeholder="Your email"/>
+                            </div>
+                            <div style="margin-top: -15px; margin-bottom: 10px;">
+                                <label style="position: static; color:red" id="email_err" class="text-danger" ></label>
+                              </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input onkeyup="validpassword(this.value)" type="password" name="pass" id="pass" placeholder="Password"/>
+                            </div>
+                            <div style="margin-top: -15px; margin-bottom: 10px;">
+                                <label style="position: static; color:red" id="pass_err" class="text-danger" ></label>
+                              </div>
+                           
+                            
+                        </form>
+                        <div class="form-group form-button">
+                            <button  onclick="validateForm()" name="signin" id="signin" class="form-submit" style="background-color:#EB5D1E ;">Sign In</button>
+                            
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+ 
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
