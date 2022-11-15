@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Favicons -->
+  <link href="../static/img/plasma.png" rel="icon">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap" rel="stylesheet">
+<!-- Vendor CSS Files -->
+<link href="../static/vendor/aos/aos.css" rel="stylesheet">
+
+<link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+<link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+<link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<link href="../static/css/style.css" rel="stylesheet">
+     <!-- Bootstrap CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="../static/css/request.css">
+    <script>
+      function validateForm() {
+        
+        let name = document.forms["form"]["name"].value;
+        let email = document.forms["form"]["email"].value;
+        let blood_group = document.forms["form"]["blood_group"].value;
+        let contact_no = document.forms["form"]["contact_no"].value;
+        let city = document.forms["form"]["city"].value;
+       if(validname(name) && validemail(email) && validblood_group(blood_group) && validcontact_no(contact_no) &&  validcity(city)){
+        return true;
+       }
+       else{
+         return false;
+       }
+     
+       }
+       
+       function validname(name){
+         document.getElementById("name_err").innerHTML=""
+         if (name != "") {
+           var letters = /^[a-zA-Z ]*$/;
+             if(name.match(letters))
+             {
+            return true;
+             }
+             else
+             {
+             document.getElementById("name_err").innerHTML="Name should contain only Alphabets"
+             return false;
+             }
+         }
+         else{
+           document.getElementById("name_err").innerHTML="Name should not be empty"
+             return false;
+         }
+       }
+       function validemail(email){
+        console.log(email)
+         document.getElementById("email_err").innerHTML="";
+         if (email != "") {
+           var emailfor = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+             if(email.match(emailfor))
+             {
+             return true;
+             }
+             else
+             {
+             document.getElementById("email_err").innerHTML="Invalid Email"
+             return false;
+             }
+         }
+         else{
+           document.getElementById("email_err").innerHTML="Email Should not be empty"
+             return false;
+         }
+       }
+       function validblood_group(blood_group){
+         document.getElementById("blood_err").innerHTML="";
+         if (blood_group != "") {
+          var regex = /^(A|B|AB|O)[+-]$/;
+         if(blood_group.match(regex))
+         {
+        return true;
+         }
+         else
+         {
+         document.getElementById("blood_err").innerHTML="Invalid Blood Group"
+         return false;
+         }
+             
+         }
+         else{
+          document.getElementById("blood_err").innerHTML="Blood group Should not be empty"
+           return false;
+         }
+       
+       }
+
+       function validcontact_no(contact_no){
+    document.getElementById("contact_err").innerHTML="";
+     if (contact_no == "") {
+      document.getElementById("contact_err").innerHTML="Contact number Should not be empty"
+         return false;
+     }
+     else{
+       return true;
+     }
+   
+   }
+
+   function validcity(city){
+    document.getElementById("city_err").innerHTML="";
+     if (city == "") {
+      document.getElementById("city_err").innerHTML="City should not be empty"
+         return false;
+     }
+     else{
+       return true;
+     }
+
+   }
+        </script>
+    <title>Planor</title>
+  </head>
+  <body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center shadow">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <div class="logo">
+        <h1 class="text-light"><a href="/"><span>Planor</span></a></h1>
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto" href="/">Home</a></li>
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="/request">Request</a></li>
+          <li><a class="nav-link scrollto" href="/donor_registration">Donate</a></li>
+          <li><a class="nav-link scrollto" href="/sign_in">SIgn In</a></li>
+          <li><a class="nav-link scrollto" href="/sign_up">Sign Up</a></li>
+          <li><a class="nav-link scrollto" href="/profile">My Profile</a></li>
+          <li><a class="nav-link scrollto" href="/logout">Logout</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+    {% if logged_in == True %}
+  <div class="content">
+    
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          
+
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              
+              <h3 class="heading mb-4">Let's make a request!</h3>
+              
+
+              <p><img src="../static/img/request.jpeg" alt="Image" class="img-fluid"></p>
+
+
+            </div>
+            <div class="col-md-6">
+              
+                  
+              <form action="{{ url_for('create_request') }}" onsubmit="return validateForm()" method="post" id="contactForm" name="form">
+                <div class="row">
+                  <div class="col-md-12 form-group ">
+                    <input onkeyup="validname(this.value)" type="text" class="form-control mb-3" name="name" id="name" placeholder="Your name" value={{name}}>
+                  </div>
+                  <div style="margin-top: -15px;">
+                    <label style="position: static; color:red" id="name_err" class="text-danger" ></label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <input onkeyup="validemail(this.value)" type="text" class="form-control mb-3" name="email" id="email" placeholder="Email" value={{email}}>
+                  </div>
+                  <div style="margin-top: -15px;">
+                    <label style="position: static; color:red" id="email_err" class="text-danger" ></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <input onkeyup="validblood_group(this.value)" type="text" class="form-control mb-3" name="blood_group" id="subject" placeholder="Blood group">
+                  </div>
+                  <div style="margin-top: -15px;">
+                    <label style="position: static; color:red" id="blood_err" class="text-danger" ></label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <input onkeyup="validcontact_no(this.value)" type="text" class="form-control mb-3" name="contact_no" id="subject" placeholder="Contact number">
+                  </div>
+                  <div style="margin-top: -15px;">
+                    <label style="position: static; color:red" id="contact_err" class="text-danger" ></label>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <input onkeyup="validcity(this.value)" type="text" class="form-control mb-3" name="city" id="subject" placeholder="City">
+                  </div>
+                  <div style="margin-top: -15px;">
+                    <label style="position: static; color:red" id="city_err" class="text-danger" ></label>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-12">
+                    <input type="submit" value="Make a Request" class="btn btn-primary rounded-0 py-2 px-4">
+                  <span class="submitting"></span>
+                  </div>
+                </div>
+              </form>
+
+
+              <div id="form-message-warning mt-4"></div> 
+              <div id="form-message-success">
+                Your message was sent, thank you!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% else %}
+  <div>
+    <div class="d-flex flex-column align-items-center  justify-content-center " style="height: 400px;">
+       Please, Sign in to make a request
+       <a  class="btn btn-dark mt-2" style="height: initial;" href="/sign_in">Sign in</a>
+       
+    </div>
+  </div>
+  {% endif %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script>
+    window.watsonAssistantChatOptions = {
+      integrationID: "efa7ebc0-d274-45b3-9cbc-3294780d6ce2", // The ID of this integration.
+      region: "au-syd", // The region your integration is hosted in.
+      serviceInstanceID: "f758b8a5-581d-449c-9f3f-390fc7b7d3ff", // The ID of your service instance.
+      onLoad: function(instance) { instance.render(); }
+    };
+    setTimeout(function(){
+      const t=document.createElement('script');
+      t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+      document.head.appendChild(t);
+    });
+  </script>
+  </body>
+</html>

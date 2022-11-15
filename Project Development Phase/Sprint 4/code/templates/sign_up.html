@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Planor</title>
+    <!-- Favicons -->
+    <link href="../static/img/plasma.png" rel="icon">
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="../static/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../static/css/register.css">
+    <script>
+    function validateForm() {
+    
+     let name = document.forms["form"]["name"].value;
+     let email = document.forms["form"]["email"].value;
+     let password = document.forms["form"]["pass"].value;
+     let re_password = document.forms["form"]["re_pass"].value;
+     
+   if(validname(name) && validemail(email) && validpassword(password) && validrepassword(re_password, password)){
+    return true;
+   }
+   else{
+     return false;
+   }
+    
+   
+     
+     
+   }
+   
+   function validname(name){
+    console.log("Hello")
+     document.getElementById("name_err").innerHTML=""
+     if (name != "") {
+       var letters = /^[a-zA-Z ]*$/;
+         if(name.match(letters))
+         {
+        return true;
+         }
+         else
+         {
+         document.getElementById("name_err").innerHTML="Name should contain only Alphabets"
+         return false;
+         }
+     }
+     else{
+       document.getElementById("name_err").innerHTML="Name should not be empty"
+         return false;
+     }
+   }
+   function validemail(email){
+    console.log(email)
+     document.getElementById("email_err").innerHTML="";
+     if (email != "") {
+       var emailfor = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+         if(email.match(emailfor))
+         {
+         return true;
+         }
+         else
+         {
+         document.getElementById("email_err").innerHTML="Invalid Email"
+         return false;
+         }
+     }
+     else{
+       document.getElementById("email_err").innerHTML="Email Should not be empty"
+         return false;
+     }
+   }
+   function validpassword(password){
+     document.getElementById("pass_err").innerHTML="";
+     if (password != "") {
+       var passwordfor = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+         if(password.match(passwordfor))
+         {
+         return true;
+         }
+         else
+         {
+         document.getElementById("pass_err").innerHTML="Password should  be > 8 letters, with at least a symbol, upper and lower case letters and a number "
+         return false;
+         }
+     }
+     else{
+       document.getElementById("pass_err").innerHTML="Passowrd Should not be empty"
+         return false;
+     }
+   
+   }
+   function validrepassword(re_password, password){
+    
+     document.getElementById("repass_err").innerHTML="";
+     if (re_password != "") {
+         if(password ===re_password)
+         {
+         return true;
+         }
+         else
+         {
+         document.getElementById("repass_err").innerHTML="Password does not match"
+         return false;
+         }
+     }
+     else{
+       document.getElementById("repass_err").innerHTML="Reenter the password"
+         return false;
+     }
+   
+   }
+      </script>
+</head>
+<body style="background-color: #fef8f5;">
+
+    <div class="main">
+
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title" >Sign up</h2>
+                        <form  action="{{ url_for('add_user') }}" onsubmit="return validateForm()" method="POST" class="register-form" id="register-form" name="form">
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input onkeyup="validname(this.value)"  type="text" name="name"  placeholder="Your Name"/>
+                                
+                                
+                            </div>
+                            <div style="margin-top: -15px; margin-bottom: 10px;">
+                              <label style="position: static; color:red" id="name_err" class="text-danger" ></label>
+
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input onkeyup="validemail(this.value)" type="email" name="email" id="email" placeholder="Your Email"/>
+                            </div>
+                            <div style="margin-top: -15px; margin-bottom: 10px;">
+                            <label style="position: static; color:red" id="email_err" class="text-danger" ></label>
+                          </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input onkeyup="validpassword(this.value)"type="password" name="pass" id="pass" placeholder="Password"/>
+                            </div>
+                            <div style="margin-top: -15px; margin-bottom: 10px;">
+                            <label style="position: static; color:red" id="pass_err" class="text-danger" ></label>
+                          </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input onkeyup="validrepassword(this.value, document.querySelector('#pass').value)" type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+                            </div>
+                            <div style="margin-top: -15px; margin-bottom: 10px;">
+                            <label style="position: static; color:red" id="repass_err" class="text-danger" ></label>
+                          </div>
+                            <div class="form-group form-button">
+                                <button name="signup" id="signup" class="form-submit" style="background-color:#EB5D1E ;" value="Sign up">Sign Up</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="../static/img/signup.jpg" alt="sing up image"></figure>
+                        <a href="/sign_in" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+ 
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

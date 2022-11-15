@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicons -->
+    <link href="../static/img/plasma.png" rel="icon">
+      <!-- Bootstrap CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      <!-- Vendor CSS Files -->
+  <link href="../static/vendor/aos/aos.css" rel="stylesheet">
+
+  <link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <link href="../static/css/style.css" rel="stylesheet">
+    <title>Profile</title>
+</head>
+<body>
+    
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center shadow">
+      <div class="container d-flex align-items-center justify-content-between">
+  
+        <div class="logo">
+          <h1 class="text-light"><a href="/"><span>Planor</span></a></h1>
+        </div>
+  
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto" href="/">Home</a></li>
+            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+            <li><a class="nav-link scrollto" href="/request">Request</a></li>
+            <li><a class="nav-link scrollto" href="/donor_registration">Donate</a></li>
+            <li><a class="nav-link scrollto" href="/sign_in">SIgn In</a></li>
+            <li><a class="nav-link scrollto" href="/sign_up">Sign Up</a></li>
+            <li><a class="nav-link scrollto" href="/profile">My Profile</a></li>
+            <li><a class="nav-link scrollto" href="/logout">Logout</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+  
+      </div>
+    </header><!-- End Header -->
+  
+  {% if logged_in == True %} 
+<div class="container" style="margin-top: 100px;">
+  <div class="row">
+    <div class="col-sm-4 text-center">
+      <h3><b>Hello {{name}}!</b></h3>
+      <p>{{email}}</p>
+
+      <!-- <div class="text-center" style="background-color: RGB(224, 224, 224); height: 350px; width:90%;display: flex;flex-direction: column; align-items: center;">
+       <div style="margin: auto;">
+        <p> Hari Prasath P</p>
+       </p>Chennai</p>
+       <p>Email:hariprasath.hp5@gmail.com</p>
+       <p>Blood Group:O+</p>
+       </div>
+
+      </div> -->
+    </div>
+    <div class="col-sm-8">
+      <div>
+       <div>
+        {% if pending_requestslen!=0 %}
+        <p>Pending Requests</p>
+        {%for i in range(0, pending_requestslen)%}
+        <form name="form" method="post" action="{{ url_for('accept_request') }}">
+        <div class=" w-100 d-flex justify-content-around align-items-center p-1 mb-3" style="background-color: RGB(224, 224, 224)" >
+          <input type="hidden" value={{pending_requests[i]["ID"]}} name="id">
+          <label >Request ID :{{pending_requests[i]["ID"]}}</label>
+            <label >Name :{{pending_requests[i]["NAME"]}}</label>
+            <label >Email :{{accepted_requests[i]["EMAIL"]}}</label>
+            <label>Location:{{pending_requests[i]["LOCATION"]}}</label>
+            <label>Blood Group:{{pending_requests[i]["BLOOD_GROUP"]}}</label>
+            <input type="submit" class="btn btn-primary" value="Accept">  
+        </div>
+      </form>
+        {%endfor%}
+        {% endif %}
+       </div>
+
+       <div>
+        {% if accepted_requestslen!=0 %}
+        <p>Accepted Requests</p>
+        {%for i in range(0, accepted_requestslen)%}
+        <div class=" w-100 d-flex justify-content-around align-items-center p-1 mb-3" style="background-color: RGB(224, 224, 224)" >
+          <label >Request ID :{{accepted_requests[i]["ID"]}}</label>
+            <label >Name :{{accepted_requests[i]["NAME"]}}</label>
+            <label >Email :{{accepted_requests[i]["EMAIL"]}}</label>
+            <label>Location:{{accepted_requests[i]["LOCATION"]}}</label>
+            <label>Blood Group:{{accepted_requests[i]["BLOOD_GROUP"]}}</label>
+        </div>
+        {%endfor%}
+        {% endif %}
+       </div>
+
+        <div>
+          {% if requests_len!=0 %}
+          <p>Requests made</p>
+          {%for i in range(0,  requests_len)%}
+          <div class=" w-75 d-flex justify-content-around align-items-center p-2 mb-3" style="background-color: RGB(224, 224, 224)" >
+            <label >Request ID :{{requests[i]["ID"]}}</label>
+              <label >Name :{{requests[i]["NAME"]}}</label>
+              <label>Location:{{requests[i]["LOCATION"]}}</label>
+              <label>Blood Group:{{requests[i]["BLOOD_GROUP"]}}</label>
+              <label>Status: {{requests[i]["REQUEST_STATUS"]}}</label>
+          </div>
+          {%endfor%}
+          {% endif %}
+      </div>
+     
+    </div>
+  </div>
+
+</div>
+
+  </div>
+  {% else %}
+  <div>
+    <div class="d-flex flex-column align-items-center  justify-content-center " style="height: 400px;">
+       Please, Sign in to view your profile
+       <a  class="btn btn-dark mt-2" style="height: initial;" href="/sign_in">Sign in</a>
+       
+    </div>
+  </div>
+  {% endif %}
+  <script>
+    window.watsonAssistantChatOptions = {
+      integrationID: "efa7ebc0-d274-45b3-9cbc-3294780d6ce2", // The ID of this integration.
+      region: "au-syd", // The region your integration is hosted in.
+      serviceInstanceID: "f758b8a5-581d-449c-9f3f-390fc7b7d3ff", // The ID of your service instance.
+      onLoad: function(instance) { instance.render(); }
+    };
+    setTimeout(function(){
+      const t=document.createElement('script');
+      t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+      document.head.appendChild(t);
+    });
+  </script>
+</body>
+</html>
